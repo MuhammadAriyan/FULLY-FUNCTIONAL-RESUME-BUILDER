@@ -154,15 +154,24 @@ const resumeGen = () => {
                 ${skillJoin}
             </ul>
         </div>
+        <style>
+        
+     .resume {
+       background-size: cover;
+       background-position: center;
+       background-image: url('bg.jpg');
+       padding: 50px;
+       overflow: hidden;
+   }
+    </style>
     `
-
-    
 
        if (!isEmpty && resumeOutput && form) {
         resumeOutput.innerHTML = htmlOfResume;
         resume = htmlOfResume
         genUrl = true
-
+        
+    localStorage.setItem('resume',resume);
     } else if (resumeOutput) {
         resumeOutput.innerHTML = '<h2>Please fill out all mandatory fields before generating the resume.</h2>';
     } else {
@@ -176,14 +185,18 @@ const UrlGenerate = async(param:string) => {
     let ranNum= Math.floor(Math.random()*100000)
     const contact = (document.getElementById('contact') as HTMLInputElement)?.value || '-';
     let userResId = ranNum + contact
-    console.log(userResId);
-    let blob = new Blob([resume], { type: 'text/html' })
-    let url = URL.createObjectURL(blob)
+    let url = window.location.href +'?resume='+ userResId
+    localStorage.setItem('resumeLink',url)
     console.log(url);
     
     window.open(url)
 }
 
 genUrlbtn.addEventListener('click',()=>{
-    genUrl?UrlGenerate(resume): alert('please generate cv before trying again')
+    genUrl?UrlGenerate(resume): alert('please generate resume before trying again')
 })
+const url = localStorage.getItem('resumeLink')
+if(window.location.href=== url){
+    const resume = localStorage.getItem('resume') 
+    document.body.innerHTML = resume ? resume : '<h1>NO RESUME FOUND</h1>'
+}
