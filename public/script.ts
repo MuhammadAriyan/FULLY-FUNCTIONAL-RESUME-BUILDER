@@ -181,7 +181,7 @@ const resumeGen = () => {
 
 const genUrlbtn = document.getElementById("genUrl") as HTMLButtonElement
 
-const UrlGenerate = async(param:string) => {
+const UrlGenerate = async() => {
     let ranNum= Math.floor(Math.random()*100000)
     const contact = (document.getElementById('contact') as HTMLInputElement)?.value || '-';
     let userResId = ranNum + contact
@@ -192,8 +192,8 @@ const UrlGenerate = async(param:string) => {
     window.open(url)
 }
 
-genUrlbtn.addEventListener('click',()=>{
-    genUrl?UrlGenerate(resume): alert('please generate resume before trying again')
+genUrlbtn.addEventListener('click',async()=>{
+    genUrl? await UrlGenerate(): alert('please generate resume before trying again')
 })
 const url = localStorage.getItem('resumeLink')
 if(window.location.href=== url){
